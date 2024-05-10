@@ -1,0 +1,190 @@
+body {
+    background-color: maroon;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+/* index.ejs */
+#superheroArena {
+    text-align: center;
+    color: black;
+    margin-top: 10rem;
+    margin-bottom: 1rem;
+    font-size: 7rem;
+}
+#homescreen {
+    margin: auto;
+    width: 35%;
+    padding: 1rem;
+    text-align: center;
+}
+#battleHeroes {
+    font-size: 5rem;
+    background-color: navy;
+    color: gold;
+    border: 2px solid gold;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+#threeButtons {
+    display: flex;
+    justify-content: space-between;
+}
+#battleHistory, #lookupHero, .allHeroes {
+    font-size: 2rem;
+    margin-top: 0.5rem;
+    background-color: green;
+    color: gold;
+    border: 2px solid gold;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+
+/* battleHeroes.ejs */
+.superheroArenaTop {
+    text-align: center;
+    color: black;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    font-size: 7rem;
+}
+#heroSelection {
+    font-size: 4rem;
+    text-align: center;
+}
+.heroInput {
+    width: 15rem;
+    height: 3rem;
+    font-size: 2rem;
+}
+#fight {
+    font-size: 4rem;
+    margin-top: 0.5rem;
+    background-color: navy;
+    color: gold;
+    border: 2px solid gold;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+#twoButtons {
+    display: flex;
+    justify-content: space-between;
+}
+.home {
+    font-size: 2rem;
+    margin-top: 0.5rem;
+    background-color: green;
+    color: gold;
+    border: 2px solid gold;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+
+/* battleHeroesResult.ejs */
+#battleResults {
+    text-align: center;
+    color: black;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: 7rem;
+}
+#battleground {
+    display: flex;
+}
+#hero1, #hero2, #comparison {
+    width: 50%;
+    text-align: center;
+}
+#powerLevels {
+    font-size: 5rem;
+}
+#scores {
+    display: flex;
+    justify-content: space-between;
+    font-size: 48px;
+    margin-top: 6rem;
+    margin-bottom: 6rem;
+}
+#winner {
+    font-size: 48px;
+}
+#battleHistoryPictures {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* searchForHero.ejs */
+#findHero {
+    font-size: 4rem;
+    text-align: center;
+    margin-top: 8rem;
+}
+#find {
+    font-size: 4rem;
+    margin-top: 4rem;
+    background-color: navy;
+    color: gold;
+    border: 2px solid gold;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+
+/* searchHeroResult.ejs */
+#heroAttributes, #image {
+    text-align: center;
+}
+#lowerThree {
+    display: flex;
+    justify-content: space-between;
+}
+#thisHome, #thisAllHeroes {
+    font-size: 2rem;
+    margin-top: 20rem;
+    background-color: green;
+    color: gold;
+    border: 2px solid gold;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+#thisImage {
+    margin-left: 3rem;
+}
+
+/* battleHistory.ejs */
+.battleLog {
+    text-align: center;
+    font-size: 4rem;
+    color: black;
+}
+.scoreDisplay {
+    font-size: 4rem;
+    margin-top: 10rem;
+}
+
+/* matchupNotBooked.ejs, heroNotFound.ejs */
+#apology {
+    text-align: center;
+    font-size: 4rem;
+}
+#twoButtonsSpecial {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20rem;
+}
+
+/* Table Formatting */
+table {
+    background-color: white;
+}
+table,td,th {
+    margin: 0 auto;
+    border: 2px solid gold;
+}
+td,th {
+    padding: 0.2rem;
+}
+
+/* Image Formatting */
+img {
+    border: 3px solid gold;
+    border-radius: 5px;
+}
