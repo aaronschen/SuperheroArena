@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battle Result</title>
+    <link rel="stylesheet" type="text/css" href="/style.css" >
+</head>
+
+<body>
+    <h1 id="battleResults">Battle Results</h1>
+
+    <div id="battleground">
+        <div id="hero1">
+            <h2>Hero Attributes: <%- heroName1 %></h2>
+    
+            <table>
+                <tr>
+                    <th>Intelligence</th>
+                    <th>Strength</th>
+                    <th>Speed</th>
+                </tr>
+    
+                <tr>
+                    <td><%- heroIntelligence1 %></td>
+                    <td><%- heroStrength1 %></td>
+                    <td><%- heroSpeed1 %></td>
+                </tr>
+            </table>
+            <br>
+    
+            <div>
+                <img src="<%- heroImage1 %>" alt="<%- heroName1 %>" height="400">
+            </div>
+        </div>
+
+        <div id="comparison">
+            <h2 id="powerLevels">Power Levels</h2>
+
+            <div id="scores">
+                <span><%- heroScore1 %></span>
+                <span><%- heroScore2 %></span>
+            </div>
+
+            <span id="winner"><%- winner %> wins</span>
+            <br><br><br>
+
+            <a href="/">
+                <input class="home" type="button" value="HOME"><br>
+            </a>
+        </div>
+    
+        <div id="hero2">
+            <h2>Hero Attributes: <%- heroName2 %></h2>
+    
+            <table>
+                <tr>
+                    <th>Intelligence</th>
+                    <th>Strength</th>
+                    <th>Speed</th>
+                </tr>
+    
+                <tr>
+                    <td><%- heroIntelligence2 %></td>
+                    <td><%- heroStrength2 %></td>
+                    <td><%- heroSpeed2 %></td>
+                </tr>
+            </table>
+            <br>
+    
+            <div>
+                <img src="<%- heroImage2 %>" alt="<%- heroName2 %>" height="400">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
