@@ -61,7 +61,7 @@ app.post("/searchHeroResult", async (request, response) => {
       };
       response.render("searchHeroResult", variables);
     } else {
-      response.render("heroNotFound", { heroName: heroName });
+      response.render("heroNotFound", { name: name });
     }
   } catch (e) {
     console.log(e);
@@ -171,7 +171,7 @@ app.post("/battleHeroesResult", async (request, response) => {
       };
       await client.db(databaseAndCollection.db).collection(databaseAndCollection.collection).insertOne(battleData);
     } else {
-      response.render("matchupNotBooked", { heroName1: heroName1, heroName2: heroName2 });
+      response.render("matchupNotBooked", { name1: name1, name2: name2 });
     }
   } catch (e) {
     console.log(e);
