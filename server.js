@@ -1,26 +1,27 @@
-const express = require("express");
 const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, ".env") });
+const express = require("express");
+const app = express();
 const bodyParser = require("body-parser");
 const fetch = require("node-fetch");
-const app = express();
-app.set("views", path.resolve(__dirname, "templates"));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.set("view engine", "ejs");
-app.use(express.static("public"));
-process.stdin.setEncoding("utf8");
-let portNumber = 3000;
-require("dotenv").config({ path: path.resolve(__dirname, ".env") });
 
-let apiKey = process.env.API_KEY;
-const userName = process.env.MONGO_DB_USERNAME;
+const username = process.env.MONGO_DB_USERNAME;
 const password = process.env.MONGO_DB_PASSWORD;
-const db = process.env.MONGO_DB_NAME;
-const dbCollection = process.env.MONGO_COLLECTION;
-const databaseAndCollection = { db: db, collection: dbCollection };
+const apiKey = process.env.API_KEY;
+const databaseAndCollection = { db: process.env.MONGO_DB_NAME, collection: process.env.MONGO_COLLECTION };
 const { MongoClient, ServerApiVersion } = require("mongodb");
-const uri = `mongodb+srv://${userName}:${password}@cluster0.4feqygv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+const uri = `mongodb+srv://${username}:${password}@cluster0.4feqygv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+
+app.set("views", path.resolve(__dirname, "templates"));
+app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static("public"));
+
+const portNumber = 3000;
+app.listen(portNumber);
 console.log(`Web server started and running at: http://localhost:${portNumber}`);
+process.stdin.setEncoding("utf8");
 
 /* HTTP REQUESTS */
 
@@ -33,19 +34,30 @@ app.get("/searchHero", (request, response) => {
 });
 
 app.post("/searchHeroResult", async (request, response) => {
-  let url = `https://superheroapi.com/api/${apiKey}/search`;
-  let heroName = request.body.name;
   try {
-    let result = await fetch(url + `/${heroName}`);
+    let name = request.body.name;
+    let result = await fetch(`https://superheroapi.com/api/${apiKey}/search/${name}`);
     let json = await result.json();
     if (json.response != "error") {
-      let powerStats = json?.results[0]?.powerstats;
       let variables = {
-        heroName: heroName,
-        heroIntelligence: powerStats.intelligence,
-        heroStrength: powerStats.strength,
-        heroSpeed: powerStats.speed,
-        heroImage: json.results[0]?.image.url,
+        name: name,
+        intelligence: json.results[0].powerstats.intelligence,
+        strength: json.results[0].powerstats.strength,
+        speed: json.results[0].powerstats.speed,
+        durability: json.results[0].powerstats.durability,
+        power: json.results[0].powerstats.power,
+        combat: json.results[0].powerstats.combat,
+        fullname: json.results[0].biography["full-name"],
+        alteregos: json.results[0].biography["alter-egos"],
+        aliases: json.results[0].biography.aliases,
+        placeofbirth: json.results[0].biography["place-of-birth"],
+        gender: json.results[0].appearance.gender,
+        race: json.results[0].appearance.race,
+        height: json.results[0].appearance.height,
+        weight: json.results[0].appearance.weight,
+        eyecolor: json.results[0].appearance["eye-color"],
+        haircolor: json.results[0].appearance["hair-color"],
+        image: json.results[0].image.url,
       };
       response.render("searchHeroResult", variables);
     } else {
@@ -64,49 +76,96 @@ app.get("/battleHeroes", (request, response) => {
 
 app.post("/battleHeroesResult", async (request, response) => {
   /* GET HEROES FOR BATTLE */
-  let url = `https://superheroapi.com/api/${apiKey}/search`;
-  let heroName1 = request.body.name1;
-  let heroName2 = request.body.name2;
   try {
-    let result1 = await fetch(url + `/${heroName1}`);
-    let result2 = await fetch(url + `/${heroName2}`);
+    let name1 = request.body.name1;
+    let name2 = request.body.name2;
+    let result1 = await fetch(`https://superheroapi.com/api/${apiKey}/search/${name1}`);
+    let result2 = await fetch(`https://superheroapi.com/api/${apiKey}/search/${name2}`);
     let json1 = await result1.json();
     let json2 = await result2.json();
     if (json1.response != "error" && json2.response != "error") {
-      let powerStats1 = json1?.results[0]?.powerstats;
-      let powerStats2 = json2?.results[0]?.powerstats;
       let variables = {
-        heroName1: heroName1,
-        heroIntelligence1: powerStats1.intelligence,
-        heroStrength1: powerStats1.strength,
-        heroSpeed1: powerStats1.speed,
-        heroImage1: json1.results[0]?.image.url,
-        heroName2: heroName2,
-        heroIntelligence2: powerStats2.intelligence,
-        heroStrength2: powerStats2.strength,
-        heroSpeed2: powerStats2.speed,
-        heroImage2: json2.results[0]?.image.url,
-        heroScore1: ((Number(powerStats1.intelligence) + Number(powerStats1.strength) + Number(powerStats1.speed)) / 3).toFixed(2),
-        heroScore2: ((Number(powerStats2.intelligence) + Number(powerStats2.strength) + Number(powerStats2.speed)) / 3).toFixed(2),
+        name1: name1,
+        intelligence1: json1.results[0].powerstats.intelligence,
+        strength1: json1.results[0].powerstats.strength,
+        speed1: json1.results[0].powerstats.speed,
+        durability1: json1.results[0].powerstats.durability,
+        power1: json1.results[0].powerstats.power,
+        combat1: json1.results[0].powerstats.combat,
+        image1: json1.results[0].image.url,
+        name2: name2,
+        intelligence2: json2.results[0].powerstats.intelligence,
+        strength2: json2.results[0].powerstats.strength,
+        speed2: json2.results[0].powerstats.speed,
+        durability2: json2.results[0].powerstats.durability,
+        power2: json2.results[0].powerstats.power,
+        combat2: json2.results[0].powerstats.combat,
+        image2: json2.results[0].image.url,
+        score1:
+          Number(json1.results[0].powerstats.intelligence) +
+          Number(json1.results[0].powerstats.strength) +
+          Number(json1.results[0].powerstats.speed) +
+          Number(json1.results[0].powerstats.durability) +
+          Number(json1.results[0].powerstats.power) +
+          Number(json1.results[0].powerstats.combat),
+        score2:
+          Number(json2.results[0].powerstats.intelligence) +
+          Number(json2.results[0].powerstats.strength) +
+          Number(json2.results[0].powerstats.speed) +
+          Number(json2.results[0].powerstats.durability) +
+          Number(json2.results[0].powerstats.power) +
+          Number(json2.results[0].powerstats.combat),
         winner:
-          (Number(powerStats1.intelligence) + Number(powerStats1.strength) + Number(powerStats1.speed)) / 3 >
-          (Number(powerStats2.intelligence) + Number(powerStats2.strength) + Number(powerStats2.speed)) / 3
-            ? heroName1
-            : heroName2,
+          Number(json1.results[0].powerstats.intelligence) +
+            Number(json1.results[0].powerstats.strength) +
+            Number(json1.results[0].powerstats.speed) +
+            Number(json1.results[0].powerstats.durability) +
+            Number(json1.results[0].powerstats.power) +
+            Number(json1.results[0].powerstats.combat) >
+          Number(json2.results[0].powerstats.intelligence) +
+            Number(json2.results[0].powerstats.strength) +
+            Number(json2.results[0].powerstats.speed) +
+            Number(json2.results[0].powerstats.durability) +
+            Number(json2.results[0].powerstats.power) +
+            Number(json2.results[0].powerstats.combat)
+            ? name1
+            : name2,
       };
       response.render("battleHeroesResult", variables);
       await client.connect();
       /* SEND BATTLE INFO */
       const battleData = {
-        heroName1: request.body.name1,
-        heroName2: request.body.name2,
-        heroScore1: ((Number(powerStats1.intelligence) + Number(powerStats1.strength) + Number(powerStats1.speed)) / 3).toFixed(2),
-        heroScore2: ((Number(powerStats2.intelligence) + Number(powerStats2.strength) + Number(powerStats2.speed)) / 3).toFixed(2),
+        name1: request.body.name1,
+        name2: request.body.name2,
+        score1:
+          Number(json1.results[0].powerstats.intelligence) +
+          Number(json1.results[0].powerstats.strength) +
+          Number(json1.results[0].powerstats.speed) +
+          Number(json1.results[0].powerstats.durability) +
+          Number(json1.results[0].powerstats.power) +
+          Number(json1.results[0].powerstats.combat),
+        score2:
+          Number(json2.results[0].powerstats.intelligence) +
+          Number(json2.results[0].powerstats.strength) +
+          Number(json2.results[0].powerstats.speed) +
+          Number(json2.results[0].powerstats.durability) +
+          Number(json2.results[0].powerstats.power) +
+          Number(json2.results[0].powerstats.combat),
         winner:
-          (Number(powerStats1.intelligence) + Number(powerStats1.strength) + Number(powerStats1.speed)) / 3 >
-          (Number(powerStats2.intelligence) + Number(powerStats2.strength) + Number(powerStats2.speed)) / 3
-            ? heroName1
-            : heroName2,
+          Number(json1.results[0].powerstats.intelligence) +
+            Number(json1.results[0].powerstats.strength) +
+            Number(json1.results[0].powerstats.speed) +
+            Number(json1.results[0].powerstats.durability) +
+            Number(json1.results[0].powerstats.power) +
+            Number(json1.results[0].powerstats.combat) >
+          Number(json2.results[0].powerstats.intelligence) +
+            Number(json2.results[0].powerstats.strength) +
+            Number(json2.results[0].powerstats.speed) +
+            Number(json2.results[0].powerstats.durability) +
+            Number(json2.results[0].powerstats.power) +
+            Number(json2.results[0].powerstats.combat)
+            ? name1
+            : name2,
         image1: json1.results[0]?.image.url,
         image2: json2.results[0]?.image.url,
       };
@@ -129,13 +188,13 @@ app.get("/battleHistory", async (request, response) => {
     html = "";
     arr.forEach((obj) => {
       html += `
-            <h2 class="battleLog">${obj.heroName1} vs ${obj.heroName2}</h2>
+            <h2 class="battleLog">${obj.name1} vs ${obj.name2}</h2>
             <div id="battleHistoryPictures">
               <div id="image-div">
                 <img src="${obj.image1}" alt="${obj.heroName1}" height="400">
               </div>
               <div class="scoreDisplay">
-                ${obj.heroScore1} - ${obj.heroScore2}
+                ${obj.score1} - ${obj.score2}
               </div>
               <div id="image-div">
                 <img src="${obj.image2}" alt="${obj.heroName2}" height="400">
@@ -152,5 +211,3 @@ app.get("/battleHistory", async (request, response) => {
     await client.close();
   }
 });
-
-app.listen(portNumber);
