@@ -2,28 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Hero Result</title>
-    <link rel="stylesheet" type="text/css" href="/style.css" >
+    <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 
 <body>
     <h1 class="superheroArenaTop">Superhero Arena</h1>
 
-    <h2 id="heroAttributes">Hero Attributes: <%- heroName %></h2>
+    <h2 id="heroAttributes"><%- name %></h2>
+
+    <div id="image">
+        <img src="<%- image %>" id="thisImage" alt="<%- name %>" height="400">
+    </div>
+
+    <h2 id="heroAttributes">Attributes:</h2>
 
     <table>
         <tr>
             <th>Intelligence</th>
-            <th> Strength</th>
-            <th> Speed</th>
+            <th>Strength</th>
+            <th>Speed</th>
+            <th>Durability</th>
+            <th>Power</th>
+            <th>Combat</th>
         </tr>
 
         <tr>
-            <td><%- heroIntelligence %></td>
-            <td><%- heroStrength %></td>
-            <td><%- heroSpeed %></td>
+            <td><%- intelligence %></td>
+            <td><%- strength %></td>
+            <td><%- speed %></td>
+            <td><%- durability %></td>
+            <td><%- power %></td>
+            <td><%- combat %></td>
+        </tr>
+    </table>
+    <br>
+
+    <h2 id="heroAttributes">Biography:</h2>
+
+    <table>
+        <tr>
+            <th>Full Name</th>
+            <th>Alter Egos</th>
+            <th>Aliases</th>
+            <th>Place of Birth</th>
+            <th>Gender</th>
+            <th>Race</th>
+            <th>Height</th>
+            <th>Weight</th>
+            <th>Eye Color</th>
+            <th>Hair Color</th>
+        </tr>
+
+        <tr>
+            <td><%- fullname %></td>
+            <td><%- alteregos %></td>
+            <td><%- aliases %></td>
+            <td><%- placeofbirth %></td>
+            <td><%- gender %></td>
+            <td><%- race %></td>
+            <td><%- height %></td>
+            <td><%- weight %></td>
+            <td><%- eyecolor %></td>
+            <td><%- haircolor %></td>
         </tr>
     </table>
     <br>
@@ -32,10 +73,6 @@
         <a href="/">
             <input id="thisHome" type="button" value="HOME"><br>
         </a>
-
-        <div id="image">
-            <img src="<%- heroImage %>" id="thisImage" alt="<%- heroName %>" height="400">
-        </div>
         
         <a href="https://www.superheroapi.com/ids.html">
             <input id="thisAllHeroes" type="button" value="All Heroes"><br>
