@@ -138,15 +138,12 @@ body {
 }
 #thisHome, #thisAllHeroes {
     font-size: 2rem;
-    margin-top: 20rem;
+    margin-top: 1rem;
     background-color: green;
     color: gold;
     border: 2px solid gold;
     padding: 0.5rem;
     border-radius: 5px;
-}
-#thisImage {
-    margin-left: 3rem;
 }
 
 /* battleHistory.ejs */
